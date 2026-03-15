@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, inject, signal, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -15,6 +15,9 @@ export class ChatWindowComponent implements AfterViewChecked {
   protected chat = inject(ChatService);
   protected input = '';
   protected error = '';
+  protected expanded = signal(false);
+
+  protected toggleExpand() { this.expanded.update(v => !v); }
 
   @ViewChild('messageList') private messageList!: ElementRef<HTMLDivElement>;
 

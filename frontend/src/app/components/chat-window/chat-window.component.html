@@ -10,12 +10,23 @@
   }
 </button>
 
-<!-- Chat panel -->
 @if (chat.open()) {
-  <!-- Mobile: full-width pinned to bottom. Desktop: fixed corner panel -->
-  <div class="fixed z-50 flex flex-col bg-white shadow-2xl border border-cream-dark
-               inset-x-0 bottom-0 h-[85vh]
-               sm:inset-x-auto sm:bottom-24 sm:right-6 sm:w-96 sm:h-[520px]">
+
+  <!-- Backdrop for expanded modal (desktop only) -->
+  @if (expanded()) {
+    <div class="hidden sm:block fixed inset-0 bg-black/50 z-40" (click)="toggleExpand()"></div>
+  }
+
+  <!--
+    Panel sizing:
+    - Mobile:          full-width sheet pinned to bottom (always)
+    - Desktop small:   fixed corner panel  (expanded = false)
+    - Desktop expanded: large centered modal (expanded = true)
+  -->
+  <div
+    [class]="expanded()
+      ? 'fixed z-50 flex flex-col bg-white shadow-2xl border border-cream-dark inset-x-0 bottom-0 h-[85vh] sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-[860px] sm:h-[680px]'
+      : 'fixed z-50 flex flex-col bg-white shadow-2xl border border-cream-dark inset-x-0 bottom-0 h-[85vh] sm:inset-auto sm:bottom-24 sm:right-6 sm:w-96 sm:h-[520px]'">
 
     <!-- Header -->
     <div class="bg-navy text-white px-4 py-3 flex items-center justify-between shrink-0">
@@ -23,10 +34,18 @@
         <p class="font-sans font-semibold text-sm">Aaron's Assistant</p>
         <p class="font-sans text-xs text-slate-300">Ask about any listing</p>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1">
+        <!-- Expand / compress — desktop only -->
+        <button
+          (click)="toggleExpand()"
+          class="hidden sm:flex text-slate-400 hover:text-white transition-colors p-1"
+          [title]="expanded() ? 'Compact view' : 'Expand'">
+          <mat-icon class="text-base leading-none">{{ expanded() ? 'close_fullscreen' : 'open_in_full' }}</mat-icon>
+        </button>
         <button (click)="chat.clear()" class="text-slate-400 hover:text-white transition-colors p-1" title="Clear chat">
           <mat-icon class="text-base leading-none">refresh</mat-icon>
         </button>
+        <!-- Close — mobile only -->
         <button (click)="chat.close()" class="text-slate-400 hover:text-white transition-colors p-1 sm:hidden" title="Close">
           <mat-icon class="text-base leading-none">close</mat-icon>
         </button>
@@ -34,7 +53,8 @@
     </div>
 
     <!-- Messages -->
-    <div #messageList class="flex-1 overflow-y-auto p-4 space-y-4 bg-cream">
+    <div #messageList class="flex-1 overflow-y-auto p-4 bg-cream"
+         [class]="expanded() ? 'space-y-4' : 'space-y-4'">
 
       @if (chat.messages().length === 0) {
         <div class="text-center py-8">
@@ -45,6 +65,7 @@
       }
 
       @for (msg of chat.messages(); track msg.id) {
+
         <!-- User message -->
         @if (msg.role === 'user') {
           <div class="flex justify-end">
@@ -63,48 +84,57 @@
 
             <!-- Property cards -->
             @if (msg.properties && msg.properties.length > 0) {
-              <div class="space-y-2">
-                @for (prop of msg.properties; track prop.id) {
 
-                  <!-- Mobile: compact inline card (no image) -->
-                  <div class="sm:hidden bg-white border border-cream-dark shadow-sm p-3 flex items-center justify-between gap-3">
-                    <div class="min-w-0">
-                      <p class="font-sans font-semibold text-navy text-xs leading-tight truncate">{{ prop.address }}</p>
-                      <p class="font-sans text-xs text-slate-500 mt-0.5">{{ prop.city }}, {{ prop.state }}</p>
-                      <div class="flex items-center gap-2 mt-1">
-                        <span class="font-display text-sm text-amber-brand font-semibold">{{ formatPrice(prop.price) }}</span>
-                        <span class="font-sans text-xs text-slate-400">{{ prop.bedrooms }}bd · {{ prop.bathrooms }}ba</span>
+              <!-- Expanded desktop: 2-col grid with full cards + images -->
+              @if (expanded()) {
+                <div class="grid grid-cols-2 gap-3">
+                  @for (prop of msg.properties; track prop.id) {
+                    <div class="bg-white border border-cream-dark shadow-sm overflow-hidden">
+                      @if (prop.images && prop.images.length > 0) {
+                        <img [src]="prop.images[0]" [alt]="prop.address" class="w-full h-36 object-cover" />
+                      }
+                      <div class="p-3">
+                        <p class="font-sans font-semibold text-navy text-sm leading-tight">{{ prop.address }}</p>
+                        <p class="font-sans text-xs text-slate-500 mt-0.5">{{ prop.city }}, {{ prop.state }}</p>
+                        <div class="flex items-center justify-between mt-2">
+                          <span class="font-display text-base text-amber-brand font-semibold">{{ formatPrice(prop.price) }}</span>
+                          <span class="font-sans text-xs text-slate-500">{{ prop.bedrooms }}bd · {{ prop.bathrooms }}ba</span>
+                        </div>
+                        <p class="font-sans text-xs text-slate-400 mt-0.5">{{ prop.sqft | number }} sqft</p>
+                        <a [routerLink]="['/property', prop.id]"
+                           (click)="chat.close()"
+                           class="block mt-2 text-center text-xs font-sans font-medium bg-navy text-white py-1.5 hover:bg-slate-800 transition-colors">
+                          View Listing
+                        </a>
                       </div>
                     </div>
-                    <a [routerLink]="['/property', prop.id]"
-                       (click)="chat.close()"
-                       class="shrink-0 text-xs font-sans font-medium bg-navy text-white px-3 py-1.5 hover:bg-slate-800 transition-colors whitespace-nowrap">
-                      View
-                    </a>
-                  </div>
+                  }
+                </div>
+              }
 
-                  <!-- Desktop: full card with image -->
-                  <div class="hidden sm:block bg-white border border-cream-dark shadow-sm overflow-hidden">
-                    @if (prop.images && prop.images.length > 0) {
-                      <img [src]="prop.images[0]" [alt]="prop.address" class="w-full h-28 object-cover" />
-                    }
-                    <div class="p-3">
-                      <p class="font-sans font-semibold text-navy text-sm leading-tight">{{ prop.address }}</p>
-                      <p class="font-sans text-xs text-slate-500 mt-0.5">{{ prop.city }}, {{ prop.state }}</p>
-                      <div class="flex items-center justify-between mt-2">
-                        <span class="font-display text-base text-amber-brand font-semibold">{{ formatPrice(prop.price) }}</span>
-                        <span class="font-sans text-xs text-slate-500">{{ prop.bedrooms }}bd · {{ prop.bathrooms }}ba · {{ prop.sqft | number }}sqft</span>
+              <!-- Small panel (desktop or mobile): compact inline rows, no image -->
+              @if (!expanded()) {
+                <div class="space-y-2">
+                  @for (prop of msg.properties; track prop.id) {
+                    <div class="bg-white border border-cream-dark shadow-sm p-3 flex items-center justify-between gap-3">
+                      <div class="min-w-0">
+                        <p class="font-sans font-semibold text-navy text-xs leading-tight truncate">{{ prop.address }}</p>
+                        <p class="font-sans text-xs text-slate-500 mt-0.5">{{ prop.city }}, {{ prop.state }}</p>
+                        <div class="flex items-center gap-2 mt-1">
+                          <span class="font-display text-sm text-amber-brand font-semibold">{{ formatPrice(prop.price) }}</span>
+                          <span class="font-sans text-xs text-slate-400">{{ prop.bedrooms }}bd · {{ prop.bathrooms }}ba</span>
+                        </div>
                       </div>
                       <a [routerLink]="['/property', prop.id]"
                          (click)="chat.close()"
-                         class="block mt-2 text-center text-xs font-sans font-medium bg-navy text-white py-1.5 hover:bg-slate-800 transition-colors">
-                        View Listing
+                         class="shrink-0 text-xs font-sans font-medium bg-navy text-white px-3 py-1.5 hover:bg-slate-800 transition-colors whitespace-nowrap">
+                        View
                       </a>
                     </div>
-                  </div>
+                  }
+                </div>
+              }
 
-                }
-              </div>
             }
 
             <!-- Lead CTA -->
@@ -122,6 +152,7 @@
             }
           </div>
         }
+
       }
 
       <!-- Loading indicator -->
@@ -154,4 +185,5 @@
       </button>
     </div>
   </div>
+
 }
