@@ -5,6 +5,7 @@ import { apiKeyAuth } from './middleware/auth.js';
 import listingsRouter from './routes/listings.js';
 import listingRouter from './routes/listing.js';
 import leadsRouter from './routes/leads.js';
+import chatRouter from './routes/chat.js';
 
 const app = new Hono().basePath('/api');
 
@@ -22,6 +23,7 @@ app.get('/health', (c) =>
 app.route('/listings', listingsRouter);
 app.route('/listing', listingRouter);
 app.route('/leads', leadsRouter);
+app.route('/chat', chatRouter);
 
 // ─── 404 fallback ─────────────────────────────────────────────────────────────
 app.notFound((c) => c.json({ error: 'Not found' }, 404));

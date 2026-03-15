@@ -52,6 +52,18 @@ export const cache = {
       console.warn('[cache] del failed:', err);
     }
   },
+
+  async incr(key: string, ttlSeconds: number): Promise<number> {
+    const redis = getRedis();
+    if (!redis) return 0;
+    try {
+      const count = await redis.incr(key);
+      if (count === 1) await redis.expire(key, ttlSeconds);
+      return count;
+    } catch {
+      return 0;
+    }
+  },
 };
 
 // ─── Cache key constants ───────────────────────────────────────────────────────
