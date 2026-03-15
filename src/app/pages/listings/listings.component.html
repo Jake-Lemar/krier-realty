@@ -1,0 +1,136 @@
+<!-- Page Header -->
+<div class="bg-navy py-14">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <span class="section-label">Browse Properties</span>
+    <h1 class="font-display text-4xl lg:text-5xl font-semibold text-white mb-3">Homes for Sale in Nebraska &amp; Iowa</h1>
+    <p class="font-sans text-white/60">
+      @if (loading) {
+        Loading listings...
+      } @else {
+        Showing <strong class="text-amber-brand">{{ listings.length }}</strong> {{ listings.length === 1 ? 'property' : 'properties' }}
+        @if (filters.state) { in {{ filters.state === 'NE' ? 'Nebraska' : 'Iowa' }} } @else { across NE &amp; IA }
+      }
+    </p>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+<div class="sticky top-16 lg:top-20 z-40 bg-white border-b border-cream-dark shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-4">
+    <div class="flex flex-wrap items-center gap-3">
+      <!-- Search -->
+      <div class="flex items-center gap-2 flex-1 min-w-48 border border-cream-dark bg-cream px-4 py-2.5 focus-within:border-amber-brand transition-colors">
+        <mat-icon class="text-slate-400 text-sm shrink-0">search</mat-icon>
+        <input
+          type="text"
+          placeholder="Search neighborhood, address..."
+          [(ngModel)]="filters.query"
+          (ngModelChange)="onFilterChange()"
+          class="flex-1 bg-transparent outline-none font-sans text-sm text-navy placeholder:text-slate-400"
+        />
+      </div>
+
+      <!-- Min Price -->
+      <div class="relative shrink-0">
+        <select
+          class="appearance-none border border-cream-dark bg-cream px-4 py-2.5 pr-8 font-sans text-sm text-navy focus:outline-none focus:border-amber-brand transition-colors cursor-pointer"
+          [(ngModel)]="filters.minPrice" (ngModelChange)="onFilterChange()"
+        >
+          @for (opt of priceOptions; track opt.label) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        <mat-icon class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">expand_more</mat-icon>
+      </div>
+
+      <!-- Max Price -->
+      <div class="relative shrink-0">
+        <select
+          class="appearance-none border border-cream-dark bg-cream px-4 py-2.5 pr-8 font-sans text-sm text-navy focus:outline-none focus:border-amber-brand transition-colors cursor-pointer"
+          [(ngModel)]="filters.maxPrice" (ngModelChange)="onFilterChange()"
+        >
+          @for (opt of priceOptions; track opt.label) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        <mat-icon class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">expand_more</mat-icon>
+      </div>
+
+      <!-- Min Beds -->
+      <div class="relative shrink-0">
+        <select
+          class="appearance-none border border-cream-dark bg-cream px-4 py-2.5 pr-8 font-sans text-sm text-navy focus:outline-none focus:border-amber-brand transition-colors cursor-pointer"
+          [(ngModel)]="filters.minBeds" (ngModelChange)="onFilterChange()"
+        >
+          @for (opt of bedOptions; track opt.label) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        <mat-icon class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">expand_more</mat-icon>
+      </div>
+
+      <!-- Property Type -->
+      <div class="relative shrink-0">
+        <select
+          class="appearance-none border border-cream-dark bg-cream px-4 py-2.5 pr-8 font-sans text-sm text-navy focus:outline-none focus:border-amber-brand transition-colors cursor-pointer"
+          [(ngModel)]="filters.propertyType" (ngModelChange)="onFilterChange()"
+        >
+          @for (opt of typeOptions; track opt.label) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        <mat-icon class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">expand_more</mat-icon>
+      </div>
+
+      <!-- State -->
+      <div class="relative shrink-0">
+        <select
+          class="appearance-none border border-cream-dark bg-cream px-4 py-2.5 pr-8 font-sans text-sm text-navy focus:outline-none focus:border-amber-brand transition-colors cursor-pointer"
+          [(ngModel)]="filters.state" (ngModelChange)="onFilterChange()"
+        >
+          @for (opt of stateOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        <mat-icon class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">expand_more</mat-icon>
+      </div>
+
+      <!-- Clear -->
+      @if (hasActiveFilters) {
+        <button
+          class="flex items-center gap-1.5 px-4 py-2.5 border border-cream-dark font-sans text-sm font-semibold text-slate-500 hover:border-red-400 hover:text-red-500 transition-colors duration-200"
+          (click)="clearFilters()"
+        >
+          <mat-icon class="text-sm">clear</mat-icon>
+          Clear
+        </button>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Listings Grid -->
+<div class="bg-cream min-h-[50vh] py-12">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    @if (loading) {
+      <div class="flex flex-col items-center justify-center py-24 gap-4">
+        <mat-icon class="text-6xl text-cream-dark animate-pulse">search</mat-icon>
+        <p class="font-sans text-slate-400">Finding properties...</p>
+      </div>
+    } @else if (listings.length === 0) {
+      <div class="flex flex-col items-center justify-center py-24 gap-4 text-center">
+        <mat-icon class="text-6xl text-cream-dark">home_work</mat-icon>
+        <h3 class="font-display text-2xl text-navy">No listings match your search</h3>
+        <p class="font-sans text-slate-400">Try adjusting your filters or
+          <button class="text-amber-brand font-semibold underline" (click)="clearFilters()">clear all filters</button>
+        </p>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (property of listings; track property.id) {
+          <app-property-card [property]="property" />
+        }
+      </div>
+    }
+  </div>
+</div>

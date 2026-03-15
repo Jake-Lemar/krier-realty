@@ -1,0 +1,71 @@
+<!-- Hero -->
+<div class="bg-navy py-20 relative overflow-hidden">
+  <div class="absolute inset-0 bg-grain opacity-40 pointer-events-none"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+    <span class="section-label">Track Record</span>
+    <h1 class="font-display text-5xl lg:text-6xl font-semibold text-white mb-5 leading-tight">
+      Results That<br>Speak for Themselves.
+    </h1>
+    <p class="font-sans text-lg text-white/70 max-w-xl mb-8">
+      Aaron Krier has helped families across the Greater Omaha-Council Bluffs metro sell their homes — quickly, confidently, and at the right price.
+    </p>
+    <a routerLink="/sell" class="btn-amber">Get Your Free Home Valuation</a>
+  </div>
+</div>
+
+<!-- Stats Bar -->
+<div class="bg-white border-b border-cream-dark">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 py-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      @for (stat of stats; track stat.label) {
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 bg-amber-brand/10 flex items-center justify-center shrink-0">
+            <mat-icon class="text-amber-brand text-base">{{ stat.icon }}</mat-icon>
+          </div>
+          <div>
+            <div class="font-display text-2xl font-semibold text-navy">{{ stat.value }}</div>
+            <div class="font-sans text-xs text-slate-400 uppercase tracking-wide">{{ stat.label }}</div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Sold Listings -->
+<section class="bg-cream py-20">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="mb-10">
+      <span class="section-label">Recently Sold</span>
+      <h2 class="font-display text-4xl lg:text-5xl font-semibold text-navy">Homes Aaron Has Sold</h2>
+    </div>
+
+    @if (soldListings.length === 0) {
+      <div class="flex flex-col items-center justify-center py-24 gap-4 text-center">
+        <mat-icon class="text-7xl text-cream-dark">home_work</mat-icon>
+        <p class="font-sans text-slate-400">No sold listings to display yet.</p>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        @for (property of soldListings; track property.id) {
+          <app-property-card [property]="property" />
+        }
+      </div>
+    }
+
+    <!-- CTA Card -->
+    <div class="bg-navy p-10 lg:p-14 text-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-grain opacity-30 pointer-events-none"></div>
+      <div class="relative z-10">
+        <h3 class="font-display text-3xl lg:text-4xl font-semibold text-white mb-4">Ready to Sell Your Home?</h3>
+        <p class="font-sans text-white/70 mb-8 max-w-lg mx-auto">
+          Join the families who trusted Aaron with their most important transaction — on either side of the river.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a routerLink="/sell" class="btn-amber">Start Your Home Valuation</a>
+          <a routerLink="/contact" class="btn-outline-white">Contact Aaron</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

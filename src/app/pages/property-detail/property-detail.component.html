@@ -1,0 +1,293 @@
+@if (loading) {
+  <div class="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+    <mat-spinner diameter="48"></mat-spinner>
+    <p class="font-sans text-slate-400">Loading property details...</p>
+  </div>
+} @else if (!property) {
+  <div class="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-4">
+    <mat-icon class="text-7xl text-cream-dark">home_work</mat-icon>
+    <h2 class="font-display text-3xl text-navy">Property Not Found</h2>
+    <p class="font-sans text-slate-400">This listing may have been removed or is no longer available.</p>
+    <a routerLink="/listings" class="btn-navy mt-2">Browse Listings</a>
+  </div>
+} @else {
+  <!-- Breadcrumb -->
+  <div class="bg-cream-warm border-b border-cream-dark">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-3">
+      <nav class="flex items-center gap-1.5 font-sans text-sm text-slate-400">
+        <a routerLink="/" class="hover:text-amber-brand transition-colors duration-200">Home</a>
+        <mat-icon class="text-xs text-cream-dark">chevron_right</mat-icon>
+        <a routerLink="/listings" class="hover:text-amber-brand transition-colors duration-200">Listings</a>
+        <mat-icon class="text-xs text-cream-dark">chevron_right</mat-icon>
+        <span class="text-navy font-medium truncate">{{ property.address }}</span>
+      </nav>
+    </div>
+  </div>
+
+  <div class="bg-cream min-h-screen py-10">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+      <!-- Image Gallery -->
+      <div class="mb-10">
+        <div class="relative overflow-hidden bg-navy" style="aspect-ratio: 16/7;">
+          <img
+            [src]="property.images[activeImageIndex]"
+            [alt]="property.address"
+            class="w-full h-full object-cover"
+          />
+          <span
+            class="absolute top-4 left-4 px-3 py-1.5 font-sans text-xs font-bold uppercase tracking-wide text-white"
+            [ngClass]="{
+              'bg-green-600': property.status === 'active',
+              'bg-amber-500': property.status === 'pending',
+              'bg-slate-500': property.status === 'sold'
+            }"
+          >
+            {{ getStatusLabel(property.status) }}
+          </span>
+        </div>
+        @if (property.images.length > 1) {
+          <div class="flex gap-2 mt-2 overflow-x-auto">
+            @for (img of property.images; track $index) {
+              <div
+                class="shrink-0 w-24 h-16 overflow-hidden cursor-pointer border-2 transition-all duration-200"
+                [ngClass]="$index === activeImageIndex ? 'border-amber-brand' : 'border-transparent hover:border-cream-dark'"
+                (click)="setActiveImage($index)"
+              >
+                <img [src]="img" [alt]="property.address + ' photo ' + ($index + 1)" class="w-full h-full object-cover" />
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Two-column Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+          <!-- Price & Status -->
+          <div class="flex items-center gap-4 mb-2">
+            <span class="font-display text-4xl font-semibold text-navy">{{ property.price | currency:'USD':'symbol':'1.0-0' }}</span>
+            <span
+              class="px-3 py-1 font-sans text-xs font-bold uppercase tracking-wide text-white"
+              [ngClass]="{
+                'bg-green-600': property.status === 'active',
+                'bg-amber-500': property.status === 'pending',
+                'bg-slate-500': property.status === 'sold'
+              }"
+            >
+              {{ getStatusLabel(property.status) }}
+            </span>
+          </div>
+          <p class="font-sans text-xs text-slate-400 mb-4">MLS# {{ property.mlsNumber }}</p>
+
+          <h1 class="font-display text-3xl font-semibold text-navy mb-2">{{ property.address }}</h1>
+          <p class="flex items-center gap-1.5 font-sans text-sm text-slate-500 mb-8">
+            <mat-icon class="text-sm text-amber-brand">location_on</mat-icon>
+            {{ property.neighborhood }}, {{ property.city }}, {{ property.state }} {{ property.zip }}
+          </p>
+
+          <!-- Stats Row -->
+          <div class="flex flex-wrap gap-6 p-6 bg-white border border-cream-dark mb-8">
+            <div class="flex items-center gap-3">
+              <mat-icon class="text-amber-brand">bed</mat-icon>
+              <div>
+                <div class="font-display text-xl font-semibold text-navy">{{ property.bedrooms }}</div>
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide">Bedrooms</div>
+              </div>
+            </div>
+            <div class="w-px h-10 bg-cream-dark self-center"></div>
+            <div class="flex items-center gap-3">
+              <mat-icon class="text-amber-brand">bathtub</mat-icon>
+              <div>
+                <div class="font-display text-xl font-semibold text-navy">{{ property.bathrooms }}</div>
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide">Bathrooms</div>
+              </div>
+            </div>
+            <div class="w-px h-10 bg-cream-dark self-center"></div>
+            <div class="flex items-center gap-3">
+              <mat-icon class="text-amber-brand">square_foot</mat-icon>
+              <div>
+                <div class="font-display text-xl font-semibold text-navy">{{ property.sqft | number }}</div>
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide">Sq Ft</div>
+              </div>
+            </div>
+            @if (property.yearBuilt) {
+              <div class="w-px h-10 bg-cream-dark self-center"></div>
+              <div class="flex items-center gap-3">
+                <mat-icon class="text-amber-brand">calendar_today</mat-icon>
+                <div>
+                  <div class="font-display text-xl font-semibold text-navy">{{ property.yearBuilt }}</div>
+                  <div class="font-sans text-xs text-slate-400 uppercase tracking-wide">Year Built</div>
+                </div>
+              </div>
+            }
+            @if (property.garage) {
+              <div class="w-px h-10 bg-cream-dark self-center"></div>
+              <div class="flex items-center gap-3">
+                <mat-icon class="text-amber-brand">garage</mat-icon>
+                <div>
+                  <div class="font-display text-xl font-semibold text-navy">{{ property.garage }}-Car</div>
+                  <div class="font-sans text-xs text-slate-400 uppercase tracking-wide">Garage</div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Description -->
+          <div class="mb-8">
+            <h2 class="font-display text-2xl font-semibold text-navy mb-4 pb-3 border-b border-cream-dark">About This Home</h2>
+            <p class="font-sans text-base text-slate-600 leading-relaxed">{{ property.description }}</p>
+          </div>
+
+          <!-- Features -->
+          <div class="mb-8">
+            <h2 class="font-display text-2xl font-semibold text-navy mb-4 pb-3 border-b border-cream-dark">Features &amp; Amenities</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              @for (feature of property.features; track feature) {
+                <div class="flex items-center gap-2 font-sans text-sm text-slate-600">
+                  <mat-icon class="text-sm text-amber-brand shrink-0">check_circle</mat-icon>
+                  {{ feature }}
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Property Details -->
+          <div class="mb-8">
+            <h2 class="font-display text-2xl font-semibold text-navy mb-4 pb-3 border-b border-cream-dark">Property Details</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div class="bg-white border border-cream-dark p-4">
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-1">Type</div>
+                <div class="font-sans text-sm font-semibold text-navy">{{ property.propertyType | titlecase }}</div>
+              </div>
+              <div class="bg-white border border-cream-dark p-4">
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-1">Neighborhood</div>
+                <div class="font-sans text-sm font-semibold text-navy">{{ property.neighborhood }}</div>
+              </div>
+              @if (property.lotSize) {
+                <div class="bg-white border border-cream-dark p-4">
+                  <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-1">Lot Size</div>
+                  <div class="font-sans text-sm font-semibold text-navy">{{ property.lotSize }}</div>
+                </div>
+              }
+              <div class="bg-white border border-cream-dark p-4">
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-1">Status</div>
+                <div class="font-sans text-sm font-semibold text-navy">{{ getStatusLabel(property.status) }}</div>
+              </div>
+              <div class="bg-white border border-cream-dark p-4">
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-1">Listed</div>
+                <div class="font-sans text-sm font-semibold text-navy">{{ property.listingDate }}</div>
+              </div>
+              @if (property.soldDate) {
+                <div class="bg-white border border-cream-dark p-4">
+                  <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-1">Sold Date</div>
+                  <div class="font-sans text-sm font-semibold text-navy">{{ property.soldDate }}</div>
+                </div>
+              }
+              @if (property.soldPrice) {
+                <div class="bg-white border border-cream-dark p-4">
+                  <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-1">Sold Price</div>
+                  <div class="font-sans text-sm font-semibold text-amber-brand">{{ property.soldPrice | currency:'USD':'symbol':'1.0-0' }}</div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Open House -->
+          @if (property.openHouse) {
+            <div class="flex items-center gap-4 p-5 bg-amber-brand/10 border border-amber-brand/30">
+              <mat-icon class="text-amber-brand text-2xl">event</mat-icon>
+              <div>
+                <div class="font-sans text-sm font-bold text-navy uppercase tracking-wide">Open House</div>
+                <div class="font-sans text-sm text-slate-600">{{ property.openHouse.date }} &bull; {{ property.openHouse.time }}</div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-1 space-y-6">
+          <!-- Agent Card -->
+          <div class="bg-white border border-cream-dark p-6">
+            <div class="flex items-center gap-4 mb-4 pb-4 border-b border-cream-dark">
+              @if (property.agent.photo) {
+                <img [src]="property.agent.photo" [alt]="property.agent.name" class="w-16 h-16 object-cover shrink-0" />
+              } @else {
+                <div class="w-16 h-16 bg-navy flex items-center justify-center text-white font-display text-xl font-bold shrink-0">
+                  {{ property.agent.name[0] }}
+                </div>
+              }
+              <div>
+                <div class="font-display text-xl font-semibold text-navy">{{ property.agent.name }}</div>
+                <div class="font-sans text-xs text-slate-400">{{ property.agent.title }}</div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <a [href]="'tel:' + property.agent.phone" class="flex items-center gap-2 font-sans text-sm text-navy hover:text-amber-brand transition-colors duration-200">
+                <mat-icon class="text-sm text-amber-brand">phone</mat-icon>
+                {{ property.agent.phone }}
+              </a>
+              <a [href]="'mailto:' + property.agent.email" class="flex items-center gap-2 font-sans text-sm text-navy hover:text-amber-brand transition-colors duration-200">
+                <mat-icon class="text-sm text-amber-brand">email</mat-icon>
+                {{ property.agent.email }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Lead Form -->
+          <div class="bg-white border border-cream-dark p-6">
+            @if (submitted) {
+              <div class="flex flex-col items-center text-center py-4 gap-3">
+                <mat-icon class="text-4xl text-green-500">check_circle</mat-icon>
+                <h3 class="font-display text-xl text-navy">Message Sent!</h3>
+                <p class="font-sans text-sm text-slate-400">Aaron will be in touch with you shortly.</p>
+              </div>
+            } @else {
+              <h3 class="font-display text-xl font-semibold text-navy mb-1">Schedule a Showing</h3>
+              <p class="font-sans text-sm text-slate-400 mb-5">Interested in this property? Get in touch with Aaron today.</p>
+              <form [formGroup]="leadForm" (ngSubmit)="onSubmitLead()" class="space-y-4">
+                <div>
+                  <label class="form-label">Your Name</label>
+                  <input class="form-input" formControlName="name" placeholder="Jane Smith" />
+                  @if (leadForm.get('name')?.invalid && leadForm.get('name')?.touched) {
+                    <p class="font-sans text-xs text-red-500 mt-1">Name is required</p>
+                  }
+                </div>
+                <div>
+                  <label class="form-label">Email Address</label>
+                  <input class="form-input" type="email" formControlName="email" placeholder="jane@email.com" />
+                  @if (leadForm.get('email')?.invalid && leadForm.get('email')?.touched) {
+                    <p class="font-sans text-xs text-red-500 mt-1">Valid email is required</p>
+                  }
+                </div>
+                <div>
+                  <label class="form-label">Phone (Optional)</label>
+                  <input class="form-input" formControlName="phone" placeholder="(402) 555-0000" />
+                </div>
+                <div>
+                  <label class="form-label">Message</label>
+                  <textarea class="form-textarea" formControlName="message" rows="3" placeholder="I'm interested in this property..."></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="btn-amber w-full justify-center"
+                  [disabled]="leadForm.invalid || submitting"
+                >
+                  @if (submitting) {
+                    <mat-spinner diameter="18"></mat-spinner>
+                    Sending...
+                  } @else {
+                    <mat-icon class="text-sm">send</mat-icon>
+                    Request a Showing
+                  }
+                </button>
+              </form>
+            }
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+}

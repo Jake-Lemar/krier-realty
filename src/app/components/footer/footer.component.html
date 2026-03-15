@@ -1,0 +1,82 @@
+<footer class="bg-navy text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+
+    <!-- 3-col grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
+
+      <!-- Brand column -->
+      <div class="md:col-span-1">
+        <div class="mb-4">
+          <span class="font-display text-2xl font-semibold text-white">Aaron Krier</span>
+          <div class="font-sans text-xs text-amber-brand uppercase tracking-widest mt-0.5">REALTOR® · Nebraska &amp; Iowa</div>
+        </div>
+        <p class="font-sans text-sm text-white/60 leading-relaxed mb-6">
+          Born in Storm Lake. Now in Carter Lake. Guiding buyers and sellers across both sides of the Missouri River.
+        </p>
+        <p class="font-sans text-xs text-white/40">
+          &copy; {{ currentYear }} Aaron Krier. All rights reserved.
+        </p>
+        <p class="font-sans text-xs text-white/40 mt-1">
+          License NE-45821 (NE) · IA-78234 (IA)
+        </p>
+      </div>
+
+      <!-- Quick Links column -->
+      <div>
+        <h4 class="font-sans text-xs font-semibold uppercase tracking-widest text-amber-brand mb-5">Quick Links</h4>
+        <ul class="space-y-3">
+          <li>
+            <a routerLink="/listings" class="flex items-center gap-2 font-sans text-sm text-white/70 hover:text-amber-brand transition-colors duration-200">
+              <mat-icon class="text-xs text-amber-brand">chevron_right</mat-icon>Browse Listings
+            </a>
+          </li>
+          <li>
+            <a routerLink="/sold" class="flex items-center gap-2 font-sans text-sm text-white/70 hover:text-amber-brand transition-colors duration-200">
+              <mat-icon class="text-xs text-amber-brand">chevron_right</mat-icon>Sold Homes
+            </a>
+          </li>
+          <li>
+            <a routerLink="/sell" class="flex items-center gap-2 font-sans text-sm text-white/70 hover:text-amber-brand transition-colors duration-200">
+              <mat-icon class="text-xs text-amber-brand">chevron_right</mat-icon>Sell Your Home
+            </a>
+          </li>
+          <li>
+            <a routerLink="/contact" class="flex items-center gap-2 font-sans text-sm text-white/70 hover:text-amber-brand transition-colors duration-200">
+              <mat-icon class="text-xs text-amber-brand">chevron_right</mat-icon>Contact Aaron
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div>
+        <h4 class="font-sans text-xs font-semibold uppercase tracking-widest text-amber-brand mb-5">Contact Aaron</h4>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <mat-icon class="text-amber-brand text-sm mt-0.5 shrink-0">location_on</mat-icon>
+            <span class="font-sans text-sm text-white/70">Carter Lake, Iowa<br>Serving Greater Omaha &amp; Council Bluffs</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <mat-icon class="text-amber-brand text-sm shrink-0">phone</mat-icon>
+            <a href="tel:+14025550187" class="font-sans text-sm text-white/70 hover:text-amber-brand transition-colors duration-200">(402) 555-0187</a>
+          </li>
+          <li class="flex items-center gap-3">
+            <mat-icon class="text-amber-brand text-sm shrink-0">email</mat-icon>
+            <a href="mailto:aaron@omahaproperties.com" class="font-sans text-sm text-white/70 hover:text-amber-brand transition-colors duration-200">aaron&#64;omahaproperties.com</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 text-white/40">
+        <mat-icon class="text-sm">house</mat-icon>
+        <span class="font-sans text-xs">Equal Housing Opportunity</span>
+      </div>
+      <p class="font-sans text-xs text-white/30 text-center">
+        Information is deemed reliable but not guaranteed. Not intended to solicit buyers or sellers currently under contract.
+      </p>
+    </div>
+  </div>
+</footer>

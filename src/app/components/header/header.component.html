@@ -1,0 +1,70 @@
+<header class="sticky top-0 z-50 bg-cream border-b border-cream-dark" [class.shadow-md]="scrolled">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+
+      <!-- Wordmark -->
+      <a routerLink="/" class="flex flex-col leading-tight" (click)="closeMobileMenu()">
+        <span class="font-display text-xl lg:text-2xl font-semibold text-navy tracking-tight">Aaron Krier</span>
+        <span class="font-sans text-xs text-amber-brand uppercase tracking-widest">REALTOR® · NE &amp; IA</span>
+      </a>
+
+      <!-- Desktop Nav (center) -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a routerLink="/listings" routerLinkActive="text-amber-brand" class="font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand transition-colors duration-200">Listings</a>
+        <a routerLink="/sold" routerLinkActive="text-amber-brand" class="font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand transition-colors duration-200">Sold</a>
+        <a routerLink="/sell" routerLinkActive="text-amber-brand" class="font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand transition-colors duration-200">Sell</a>
+        <a routerLink="/contact" routerLinkActive="text-amber-brand" class="font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand transition-colors duration-200">Contact</a>
+      </nav>
+
+      <!-- Right: Phone + CTA -->
+      <div class="hidden md:flex items-center gap-4">
+        <a href="tel:+14025550187" class="flex items-center gap-1.5 font-sans text-sm text-navy hover:text-amber-brand transition-colors duration-200">
+          <mat-icon class="text-amber-brand text-base">phone</mat-icon>
+          <span>(402) 555-0187</span>
+        </a>
+        <a routerLink="/contact" class="btn-amber text-xs py-2.5 px-5">
+          Get Started
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button
+        class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle navigation menu"
+      >
+        <span class="block w-6 h-0.5 bg-navy transition-all duration-200" [class.rotate-45]="mobileMenuOpen" [class.translate-y-2]="mobileMenuOpen"></span>
+        <span class="block w-6 h-0.5 bg-navy transition-all duration-200" [class.opacity-0]="mobileMenuOpen"></span>
+        <span class="block w-6 h-0.5 bg-navy transition-all duration-200" [class.-rotate-45]="mobileMenuOpen" [class.-translate-y-2]="mobileMenuOpen"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="md:hidden border-t border-cream-dark bg-cream overflow-hidden transition-all duration-300"
+       [class.max-h-0]="!mobileMenuOpen"
+       [class.max-h-96]="mobileMenuOpen">
+    <nav class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+      <a routerLink="/listings" routerLinkActive="text-amber-brand bg-cream-warm" class="flex items-center gap-3 px-4 py-3 font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand hover:bg-cream-warm transition-colors duration-200" (click)="closeMobileMenu()">
+        <mat-icon class="text-base">search</mat-icon> Listings
+      </a>
+      <a routerLink="/sold" routerLinkActive="text-amber-brand bg-cream-warm" class="flex items-center gap-3 px-4 py-3 font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand hover:bg-cream-warm transition-colors duration-200" (click)="closeMobileMenu()">
+        <mat-icon class="text-base">check_circle</mat-icon> Sold
+      </a>
+      <a routerLink="/sell" routerLinkActive="text-amber-brand bg-cream-warm" class="flex items-center gap-3 px-4 py-3 font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand hover:bg-cream-warm transition-colors duration-200" (click)="closeMobileMenu()">
+        <mat-icon class="text-base">sell</mat-icon> Sell Your Home
+      </a>
+      <a routerLink="/contact" routerLinkActive="text-amber-brand bg-cream-warm" class="flex items-center gap-3 px-4 py-3 font-sans text-sm font-medium uppercase tracking-wide text-navy hover:text-amber-brand hover:bg-cream-warm transition-colors duration-200" (click)="closeMobileMenu()">
+        <mat-icon class="text-base">mail</mat-icon> Contact
+      </a>
+      <div class="mt-3 pt-3 border-t border-cream-dark flex flex-col gap-2">
+        <a href="tel:+14025550187" class="flex items-center gap-2 px-4 py-2 font-sans text-sm text-navy">
+          <mat-icon class="text-amber-brand text-base">phone</mat-icon> (402) 555-0187
+        </a>
+        <a routerLink="/contact" class="btn-amber text-xs mx-4" (click)="closeMobileMenu()">
+          Get Started
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>

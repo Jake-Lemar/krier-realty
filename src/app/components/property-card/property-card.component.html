@@ -1,0 +1,77 @@
+<div class="group flex flex-col h-full bg-white border border-cream-dark overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
+  <!-- Image -->
+  <div class="relative overflow-hidden aspect-[16/10] bg-cream-dark">
+    <img
+      [src]="property.images[0]"
+      [alt]="property.address"
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+      loading="lazy"
+    />
+    <!-- Status Badge -->
+    <span
+      class="absolute top-3 left-3 px-2.5 py-1 text-xs font-sans font-bold uppercase tracking-wide text-white"
+      [ngClass]="{
+        'bg-green-600': property.status === 'active',
+        'bg-amber-500': property.status === 'pending',
+        'bg-slate-500': property.status === 'sold'
+      }"
+    >
+      {{ getStatusLabel(property.status) }}
+    </span>
+    <!-- Open House Tag -->
+    @if (property.openHouse && property.status === 'active') {
+      <span class="absolute bottom-3 left-3 flex items-center gap-1 px-2.5 py-1 bg-navy/90 text-white text-xs font-sans font-semibold uppercase tracking-wide">
+        <mat-icon class="text-xs">calendar_today</mat-icon> Open House
+      </span>
+    }
+    <!-- Sold Price Tag -->
+    @if (property.status === 'sold' && property.soldPrice) {
+      <span class="absolute bottom-3 right-3 px-2.5 py-1 bg-amber-brand text-white text-xs font-sans font-bold">
+        Sold {{ property.soldPrice | currency:'USD':'symbol':'1.0-0' }}
+      </span>
+    }
+  </div>
+
+  <!-- Card Content -->
+  <div class="flex flex-col flex-1 p-5">
+    <!-- Price & Type -->
+    <div class="flex items-baseline justify-between mb-2">
+      <span class="font-display text-2xl font-semibold text-navy tracking-tight">{{ property.price | currency:'USD':'symbol':'1.0-0' }}</span>
+      <span class="font-sans text-xs font-semibold uppercase tracking-widest text-slate-400 bg-slate-50 px-2 py-0.5">{{ property.propertyType | titlecase }}</span>
+    </div>
+
+    <!-- Address -->
+    <h3 class="font-sans text-base font-semibold text-navy mb-1 leading-snug">{{ property.address }}</h3>
+    <p class="flex items-center gap-1 font-sans text-sm text-slate-500 mb-4">
+      <mat-icon class="text-sm text-amber-brand shrink-0">location_on</mat-icon>
+      {{ property.neighborhood }}, {{ property.city }}, {{ property.state }}
+    </p>
+
+    <!-- Stats -->
+    <div class="flex items-center border-t border-b border-cream-dark py-3 mb-4">
+      <div class="flex-1 flex items-center justify-center gap-1.5 font-sans text-sm font-semibold text-navy">
+        <mat-icon class="text-sm text-amber-brand">bed</mat-icon>
+        {{ property.bedrooms }} <small class="font-normal text-slate-400 text-xs">Beds</small>
+      </div>
+      <div class="w-px h-5 bg-cream-dark"></div>
+      <div class="flex-1 flex items-center justify-center gap-1.5 font-sans text-sm font-semibold text-navy">
+        <mat-icon class="text-sm text-amber-brand">bathtub</mat-icon>
+        {{ property.bathrooms }} <small class="font-normal text-slate-400 text-xs">Baths</small>
+      </div>
+      <div class="w-px h-5 bg-cream-dark"></div>
+      <div class="flex-1 flex items-center justify-center gap-1.5 font-sans text-sm font-semibold text-navy">
+        <mat-icon class="text-sm text-amber-brand">square_foot</mat-icon>
+        {{ property.sqft | number }} <small class="font-normal text-slate-400 text-xs">Sq Ft</small>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <a
+      [routerLink]="['/property', property.id]"
+      class="mt-auto flex items-center justify-center gap-2 px-4 py-2.5 border border-navy text-navy font-sans text-sm font-semibold uppercase tracking-wide transition-all duration-200 hover:bg-navy hover:text-white group/btn"
+    >
+      View Details
+      <mat-icon class="text-base transition-transform duration-200 group-hover/btn:translate-x-1">arrow_forward</mat-icon>
+    </a>
+  </div>
+</div>

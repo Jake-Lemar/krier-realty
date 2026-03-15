@@ -1,0 +1,124 @@
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Angular Material — suppress default theme */
+@use '@angular/material' as mat;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans text-navy bg-cream;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-navy;
+    line-height: 1.15;
+  }
+
+  a {
+    @apply text-navy no-underline transition-colors duration-200;
+  }
+
+  img {
+    @apply block max-w-full h-auto;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-amber-brand;
+  }
+}
+
+@layer components {
+  /* Section label eyebrow */
+  .section-label {
+    @apply block text-xs font-sans font-semibold uppercase tracking-widest text-amber-brand mb-3;
+  }
+
+  /* Status badges */
+  .badge-active {
+    @apply inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold uppercase tracking-wide bg-green-100 text-green-800;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold uppercase tracking-wide bg-amber-100 text-amber-800;
+  }
+
+  .badge-sold {
+    @apply inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold uppercase tracking-wide bg-slate-100 text-slate-600;
+  }
+
+  /* Buttons */
+  .btn-amber {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-amber-brand text-white font-sans font-semibold text-sm uppercase tracking-wide rounded-none transition-all duration-200 hover:bg-amber-light;
+  }
+
+  .btn-navy {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-navy text-white font-sans font-semibold text-sm uppercase tracking-wide rounded-none transition-all duration-200 hover:bg-navy-light;
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-white text-white font-sans font-semibold text-sm uppercase tracking-wide rounded-none transition-all duration-200 hover:bg-white hover:text-navy;
+  }
+
+  .btn-outline-navy {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-navy text-navy font-sans font-semibold text-sm uppercase tracking-wide rounded-none transition-all duration-200 hover:bg-navy hover:text-white;
+  }
+
+  /* Form inputs */
+  .form-input {
+    @apply w-full px-4 py-3 bg-white border border-cream-dark text-navy font-sans text-sm rounded-none transition-colors duration-200 focus:outline-none focus:border-amber-brand focus:ring-1 focus:ring-amber-brand;
+  }
+
+  .form-select {
+    @apply w-full px-4 py-3 bg-white border border-cream-dark text-navy font-sans text-sm rounded-none transition-colors duration-200 focus:outline-none focus:border-amber-brand appearance-none;
+  }
+
+  .form-textarea {
+    @apply w-full px-4 py-3 bg-white border border-cream-dark text-navy font-sans text-sm rounded-none transition-colors duration-200 focus:outline-none focus:border-amber-brand focus:ring-1 focus:ring-amber-brand resize-y;
+  }
+
+  .form-label {
+    @apply block text-xs font-sans font-semibold uppercase tracking-wide text-navy mb-1.5;
+  }
+}
+
+/* Angular Material minimal overrides — keep Material Icons functional */
+.material-icons {
+  font-size: inherit;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+mat-spinner circle {
+  stroke: currentColor;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F9F5EF; }
+::-webkit-scrollbar-thumb { background: #E4D9C8; }
+::-webkit-scrollbar-thumb:hover { background: #C97A2A; }

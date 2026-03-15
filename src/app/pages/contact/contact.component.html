@@ -1,0 +1,152 @@
+<!-- Hero -->
+<div class="bg-navy py-16 relative overflow-hidden">
+  <div class="absolute inset-0 bg-grain opacity-40 pointer-events-none"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+    <span class="section-label">Get in Touch</span>
+    <h1 class="font-display text-4xl lg:text-5xl font-semibold text-white mb-4">Contact Aaron</h1>
+    <p class="font-sans text-white/70">Have a question about buying, selling, or the Omaha-Council Bluffs market? Aaron is here to help.</p>
+  </div>
+</div>
+
+<!-- Main Content -->
+<section class="bg-cream py-20">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+      <!-- Left: Form -->
+      <div>
+        <h2 class="font-display text-3xl font-semibold text-navy mb-2">Send a Message</h2>
+        <p class="font-sans text-sm text-slate-400 mb-8">
+          Fill out the form below and Aaron will respond within one business day.
+        </p>
+
+        @if (submitted) {
+          <div class="flex flex-col items-center text-center py-12 gap-4 bg-white border border-cream-dark">
+            <mat-icon class="text-5xl text-green-500">check_circle</mat-icon>
+            <h3 class="font-display text-2xl text-navy">Message Sent!</h3>
+            <p class="font-sans text-sm text-slate-400">Thank you for reaching out! Aaron will be in touch very soon.</p>
+          </div>
+        } @else {
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-5">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="form-label">Your Name</label>
+                <div class="relative">
+                  <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">person</mat-icon>
+                  <input class="form-input pl-9" formControlName="name" placeholder="Jane Smith" />
+                </div>
+                @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
+                  <p class="font-sans text-xs text-red-500 mt-1">Name is required</p>
+                }
+              </div>
+              <div>
+                <label class="form-label">Email Address</label>
+                <div class="relative">
+                  <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">email</mat-icon>
+                  <input class="form-input pl-9" type="email" formControlName="email" placeholder="jane@email.com" />
+                </div>
+                @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
+                  <p class="font-sans text-xs text-red-500 mt-1">Valid email is required</p>
+                }
+              </div>
+            </div>
+            <div>
+              <label class="form-label">Phone Number (Optional)</label>
+              <div class="relative">
+                <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none">phone</mat-icon>
+                <input class="form-input pl-9" formControlName="phone" placeholder="(402) 555-0000" />
+              </div>
+            </div>
+            <div>
+              <label class="form-label">Message</label>
+              <textarea
+                class="form-textarea"
+                formControlName="message"
+                rows="6"
+                placeholder="Hi Aaron, I'd like to learn more about..."
+              ></textarea>
+              @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
+                <p class="font-sans text-xs text-red-500 mt-1">Please enter a message (at least 10 characters)</p>
+              }
+            </div>
+            <button
+              type="submit"
+              class="btn-amber w-full justify-center"
+              [disabled]="contactForm.invalid || submitting"
+            >
+              @if (submitting) {
+                <mat-spinner diameter="18"></mat-spinner>
+                Sending...
+              } @else {
+                <mat-icon class="text-sm">send</mat-icon>
+                Send Message
+              }
+            </button>
+          </form>
+        }
+      </div>
+
+      <!-- Right: Agent Info -->
+      <aside>
+        <div class="bg-white border border-cream-dark p-8">
+          <!-- Photo + name -->
+          <div class="flex items-center gap-5 pb-6 mb-6 border-b border-cream-dark">
+            <img src="/aaron.png" alt="Aaron Krier" class="w-20 h-20 object-cover shrink-0" />
+            <div>
+              <h2 class="font-display text-2xl font-semibold text-navy">Aaron Krier</h2>
+              <p class="font-sans text-sm text-slate-400">REALTOR® | Licensed in Nebraska &amp; Iowa</p>
+              <p class="font-sans text-xs text-amber-brand mt-1">NE-45821 · IA-78234</p>
+            </div>
+          </div>
+
+          <p class="font-sans text-sm text-slate-600 leading-relaxed mb-6">
+            Born in Storm Lake, Iowa — now in Carter Lake. Aaron knows the communities on both sides of the Missouri River and is dedicated to guiding every client with honesty and persistence.
+          </p>
+
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-9 h-9 bg-amber-brand/10 flex items-center justify-center shrink-0">
+                <mat-icon class="text-amber-brand text-sm">phone</mat-icon>
+              </div>
+              <div>
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-0.5">Phone</div>
+                <a href="tel:+14025550187" class="font-sans text-sm font-semibold text-navy hover:text-amber-brand transition-colors duration-200">(402) 555-0187</a>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-9 h-9 bg-amber-brand/10 flex items-center justify-center shrink-0">
+                <mat-icon class="text-amber-brand text-sm">email</mat-icon>
+              </div>
+              <div>
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-0.5">Email</div>
+                <a href="mailto:aaron@omahaproperties.com" class="font-sans text-sm font-semibold text-navy hover:text-amber-brand transition-colors duration-200">aaron&#64;omahaproperties.com</a>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-9 h-9 bg-amber-brand/10 flex items-center justify-center shrink-0">
+                <mat-icon class="text-amber-brand text-sm">location_on</mat-icon>
+              </div>
+              <div>
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-0.5">Based in</div>
+                <span class="font-sans text-sm font-semibold text-navy">Carter Lake, Iowa<br>Serving Greater Omaha &amp; Council Bluffs</span>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-9 h-9 bg-amber-brand/10 flex items-center justify-center shrink-0">
+                <mat-icon class="text-amber-brand text-sm">schedule</mat-icon>
+              </div>
+              <div>
+                <div class="font-sans text-xs text-slate-400 uppercase tracking-wide mb-0.5">Office Hours</div>
+                <span class="font-sans text-sm text-navy">
+                  Mon–Fri: 9:00 AM – 6:00 PM<br>
+                  Sat: 10:00 AM – 4:00 PM<br>
+                  Sun: By Appointment
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
