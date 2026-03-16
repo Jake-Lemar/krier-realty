@@ -3,7 +3,7 @@ import { AgentProfile, Property } from '../models/property.model';
 export const agentProfile: AgentProfile = {
   name: 'Aaron Krier',
   phone: '(402) 555-0187',
-  email: 'aaron@omahaproperties.com',
+  email: 'aaron@krierrealty.com',
   photo: '/aaron.png',
   bio: 'Aaron Krier grew up in Storm Lake, Iowa — a tight-knit lakeside community where your reputation is everything and a handshake still means something. After years of building a life there, he made the same leap thousands of families make each year: crossing the Missouri River into the Greater Omaha-Council Bluffs metro. Now based in Carter Lake, Iowa, Aaron is uniquely positioned to guide buyers and sellers on both sides of the state line. He\'s not just licensed in both Nebraska and Iowa — he\'s lived both realities. Whether you\'re a first-time buyer navigating Council Bluffs neighborhoods, a Nebraska family ready to upsize, or an investor eyeing the metro\'s growth corridors, Aaron brings the persistence, honesty, and community values of a small-town upbringing to every deal.',
   licenseNumber: 'NE-45821',

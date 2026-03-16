@@ -72,9 +72,9 @@ export class HomeComponent implements OnInit {
       '@context': 'https://schema.org',
       '@type': 'RealEstateAgent',
       name: 'Aaron Krier',
-      url: 'https://omahaproperties.com',
+      url: 'https://krierrealty.com',
       telephone: '(402) 555-0187',
-      email: 'aaron@omahaproperties.com',
+      email: 'aaron@krierrealty.com',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Carter Lake',

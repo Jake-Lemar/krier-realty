@@ -3,7 +3,7 @@ import type { Property, AgentProfile } from '../types/property.js';
 const agent: AgentProfile = {
   name: 'Aaron Krier',
   phone: '(402) 555-0187',
-  email: 'aaron@omahaproperties.com',
+  email: 'aaron@krierrealty.com',
   photo: '/aaron.png',
   bio: "Aaron Krier grew up in Storm Lake, Iowa. Now based in Carter Lake, he's dual-licensed in Nebraska and Iowa and uniquely positioned to guide buyers and sellers on both sides of the Missouri River.",
   title: 'REALTOR® | Licensed in Nebraska & Iowa',
