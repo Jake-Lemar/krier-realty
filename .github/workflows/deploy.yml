@@ -37,7 +37,7 @@ jobs:
           PGSSLROOTCERT: /tmp/supabase-ca.crt
 
       - name: Deploy API to Vercel
-        run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes --cwd .
         working-directory: api
         env:
           VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
@@ -48,7 +48,7 @@ jobs:
         working-directory: frontend
 
       - name: Deploy frontend to Vercel
-        run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes --cwd .
         working-directory: frontend
         env:
           VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
