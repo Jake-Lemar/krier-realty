@@ -40,8 +40,8 @@ jobs:
         run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
         working-directory: api
         env:
-          VERCEL_ORG_ID: ${{ variables.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ variables.VERCEL_API_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_API_PROJECT_ID }}
 
       - name: Install frontend deps
         run: npm ci
@@ -51,5 +51,5 @@ jobs:
         run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
         working-directory: frontend
         env:
-          VERCEL_ORG_ID: ${{ variables.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ variables.VERCEL_FRONTEND_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_FRONTEND_PROJECT_ID }}
