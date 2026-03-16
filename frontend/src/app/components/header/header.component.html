@@ -22,8 +22,13 @@
           <mat-icon class="text-amber-brand text-base">phone</mat-icon>
           <span>(402) 555-0187</span>
         </a>
-        <a routerLink="/contact" class="btn-amber text-xs py-2.5 px-5">
-          Get Started
+        <a routerLink="/admin/login"
+          class="flex items-center gap-1.5 text-xs font-medium text-navy/40 hover:text-navy/70 transition-colors duration-200"
+          title="Agent Login">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          Agent Login
         </a>
       </div>
 
@@ -61,8 +66,12 @@
         <a href="tel:+14025550187" class="flex items-center gap-2 px-4 py-2 font-sans text-sm text-navy">
           <mat-icon class="text-amber-brand text-base">phone</mat-icon> (402) 555-0187
         </a>
-        <a routerLink="/contact" class="btn-amber text-xs mx-4" (click)="closeMobileMenu()">
-          Get Started
+        <a routerLink="/admin/login" (click)="closeMobileMenu()"
+          class="flex items-center gap-2 px-4 py-2 font-sans text-sm text-navy/40 hover:text-navy/70 transition-colors duration-200">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          Agent Login
         </a>
       </div>
     </nav>

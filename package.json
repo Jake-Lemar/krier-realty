@@ -8,6 +8,11 @@
     "install:all":       "cd frontend && npm install && cd ../api && npm install",
     "api:dev":           "cd api && npm run dev",
     "api:install":       "cd api && npm install",
-    "api:typecheck":     "cd api && npm run typecheck"
+    "api:typecheck":     "cd api && npm run typecheck",
+    "db:generate":       "cd api && npm run db:generate",
+    "db:migrate":        "cd api && npm run db:migrate",
+    "db:migrate:prod":   "cd api && DATABASE_DIRECT_URL=$PROD_DB_URL npm run db:migrate",
+    "db:push":           "cd api && npm run db:push",
+    "db:studio":         "cd api && npm run db:studio"
   }
 }

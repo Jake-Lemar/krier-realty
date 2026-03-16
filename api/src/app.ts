@@ -6,6 +6,7 @@ import listingsRouter from './routes/listings.js';
 import listingRouter from './routes/listing.js';
 import leadsRouter from './routes/leads.js';
 import chatRouter from './routes/chat.js';
+import adminLeadsRouter from './routes/admin/leads.js';
 
 const app = new Hono().basePath('/api');
 
@@ -24,6 +25,7 @@ app.route('/listings', listingsRouter);
 app.route('/listing', listingRouter);
 app.route('/leads', leadsRouter);
 app.route('/chat', chatRouter);
+app.route('/admin/leads', adminLeadsRouter);
 
 // ─── 404 fallback ─────────────────────────────────────────────────────────────
 app.notFound((c) => c.json({ error: 'Not found' }, 404));

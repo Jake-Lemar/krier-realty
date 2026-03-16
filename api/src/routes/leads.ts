@@ -4,6 +4,8 @@ import { zValidator } from '@hono/zod-validator';
 import { sanitizeString, isSuspicious, normalizeEmail, normalizePhone } from '../utils/sanitize.js';
 import { sendLeadNotification } from '../services/email.service.js';
 import { cache } from '../services/cache.service.js';
+import { leadRepository } from '../repositories/lead.repository.js';
+import { isDbConfigured } from '../db/index.js';
 
 const router = new Hono();
 
@@ -68,6 +70,21 @@ router.post('/', zValidator('json', leadSchema), async (c) => {
 
   try {
     await sendLeadNotification(lead);
+
+    // Persist to database if configured
+    if (isDbConfigured()) {
+      await leadRepository.create({
+        type:             lead.type,
+        name:             lead.name,
+        email:            lead.email,
+        phone:            lead.phone,
+        message:          lead.message,
+        propertyId:       lead.propertyId,
+        address:          lead.address,
+        preferredContact: lead.preferredContact,
+        source:           lead.source,
+      });
+    }
 
     return c.json({
       success: true,

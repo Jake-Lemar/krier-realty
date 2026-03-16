@@ -14,7 +14,7 @@ export function buildCors() {
 
   return cors({
     origin: (origin) => (allowed.has(origin) ? origin : null),
-    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    allowMethods: ['GET', 'POST', 'PATCH', 'OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
     maxAge: 86400,
   });
