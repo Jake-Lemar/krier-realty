@@ -69,11 +69,10 @@ router.post('/', zValidator('json', leadSchema), async (c) => {
   console.log('[Lead]', JSON.stringify({ ...lead, ts: new Date().toISOString() }));
 
   try {
-    await sendLeadNotification(lead);
-
-    // Persist to database if configured
+    // Persist to database first so we have an ID for the admin link
+    let adminUrl: string | undefined;
     if (isDbConfigured()) {
-      await leadRepository.create({
+      const saved = await leadRepository.create({
         type:             lead.type,
         name:             lead.name,
         email:            lead.email,
@@ -84,7 +83,13 @@ router.post('/', zValidator('json', leadSchema), async (c) => {
         preferredContact: lead.preferredContact,
         source:           lead.source,
       });
+      const adminBase = process.env['ADMIN_BASE_URL']?.replace(/\/$/, '');
+      if (adminBase && saved?.id) {
+        adminUrl = `${adminBase}/admin/leads/${saved.id}`;
+      }
     }
+
+    await sendLeadNotification({ ...lead, adminUrl });
 
     return c.json({
       success: true,

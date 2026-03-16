@@ -19,6 +19,7 @@ export interface LeadEmailData {
   address?: string;         // seller property address
   preferredContact?: string;
   source?: string;
+  adminUrl?: string;        // direct link to the lead in the admin portal
 }
 
 function leadTypeLabel(type: string): string {
@@ -107,6 +108,21 @@ function buildLeadEmailHtml(lead: LeadEmailData): string {
        </a>`
     : '';
 
+  const adminButton = lead.adminUrl
+    ? `
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:20px;border-top:1px solid #E4D9C8;padding-top:20px;">
+        <tr>
+          <td>
+            <p style="margin:0 0 10px;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.8px;">Admin</p>
+            <a href="${lead.adminUrl}"
+               style="display:inline-block;background:#1e3147;color:#ffffff;text-decoration:none;font-size:12px;font-weight:700;padding:12px 22px;text-transform:uppercase;letter-spacing:0.8px;">
+              View Lead in Admin Portal
+            </a>
+          </td>
+        </tr>
+      </table>`
+    : '';
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -193,6 +209,7 @@ function buildLeadEmailHtml(lead: LeadEmailData): string {
                 </td>
               </tr>
             </table>
+            ${adminButton}
 
           </td>
         </tr>
