@@ -13,7 +13,7 @@ export class SeoService {
     @Inject(DOCUMENT) private document: Document
   ) {}
 
-  updateMeta(config: { title: string; description: string; image?: string; url?: string }): void {
+  updateMeta(config: { title: string; description: string; image?: string; url?: string; canonical?: string }): void {
     this.titleService.setTitle(config.title);
 
     this.metaService.updateTag({ name: 'description', content: config.description });
@@ -36,6 +36,23 @@ export class SeoService {
     this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.metaService.updateTag({ name: 'twitter:title', content: config.title });
     this.metaService.updateTag({ name: 'twitter:description', content: config.description });
+
+    if (config.canonical) {
+      this.setCanonical(config.canonical);
+    }
+  }
+
+  private setCanonical(url: string): void {
+    const base = 'https://krierrealty.com';
+    const full = url.startsWith('http') ? url : `${base}${url}`;
+
+    let link: HTMLLinkElement = this.document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+    if (!link) {
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      this.document.head.appendChild(link);
+    }
+    link.setAttribute('href', full);
   }
 
   setJsonLd(data: object): void {
@@ -43,6 +60,18 @@ export class SeoService {
     const script = this.document.createElement('script');
     script.type = 'application/ld+json';
     script.id = 'json-ld-schema';
+    script.text = JSON.stringify(data);
+    this.document.head.appendChild(script);
+  }
+
+  addJsonLd(data: object, id: string): void {
+    const existing = this.document.getElementById(id);
+    if (existing) {
+      existing.remove();
+    }
+    const script = this.document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = id;
     script.text = JSON.stringify(data);
     this.document.head.appendChild(script);
   }

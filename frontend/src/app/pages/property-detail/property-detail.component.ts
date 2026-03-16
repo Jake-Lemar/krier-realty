@@ -64,7 +64,8 @@ export class PropertyDetailComponent implements OnInit {
           this.seoService.updateMeta({
             title: `${property.address}, ${property.city} | $${property.price.toLocaleString()} | Omaha Property Group`,
             description: `${property.bedrooms} bed, ${property.bathrooms} bath home in ${property.neighborhood}, Omaha. ${property.sqft.toLocaleString()} sq ft. Listed at $${property.price.toLocaleString()}. MLS# ${property.mlsNumber}.`,
-            image: property.images[0]
+            image: property.images[0],
+            canonical: `/property/${property.id}`
           });
         }
       });

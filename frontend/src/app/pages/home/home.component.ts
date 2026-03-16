@@ -65,22 +65,80 @@ export class HomeComponent implements OnInit {
     this.seoService.updateMeta({
       title: 'Omaha & Council Bluffs Homes for Sale | Aaron Krier REALTOR®',
       description: 'Search homes for sale in Omaha NE and Council Bluffs IA with Aaron Krier, dual-licensed REALTOR® based in Carter Lake. Browse listings in Dundee, Midtown, Aksarben, and more.',
-      image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80'
+      image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80',
+      canonical: '/'
     });
 
     this.seoService.setJsonLd({
       '@context': 'https://schema.org',
-      '@type': 'RealEstateAgent',
-      name: 'Aaron Krier',
-      url: 'https://krierrealty.com',
-      telephone: '(402) 555-0187',
-      email: 'aaron@krierrealty.com',
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Carter Lake',
-        addressRegion: 'IA',
-        postalCode: '51510'
-      }
+      '@graph': [
+        {
+          '@type': 'RealEstateAgent',
+          '@id': 'https://krierrealty.com/#agent',
+          name: 'Aaron Krier',
+          url: 'https://krierrealty.com',
+          telephone: '+14025550187',
+          email: 'aaron@krierrealty.com',
+          image: 'https://krierrealty.com/aaron.png',
+          description: 'Aaron Krier is a REALTOR® dual-licensed in Nebraska and Iowa, serving the Greater Omaha and Council Bluffs metro area from Carter Lake, Iowa.',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Carter Lake',
+            addressRegion: 'IA',
+            addressCountry: 'US'
+          },
+          areaServed: [
+            { '@type': 'City', name: 'Omaha', containedInPlace: { '@type': 'State', name: 'Nebraska' } },
+            { '@type': 'City', name: 'Council Bluffs', containedInPlace: { '@type': 'State', name: 'Iowa' } },
+            { '@type': 'City', name: 'Carter Lake', containedInPlace: { '@type': 'State', name: 'Iowa' } },
+            { '@type': 'City', name: 'Bellevue', containedInPlace: { '@type': 'State', name: 'Nebraska' } },
+            { '@type': 'City', name: 'Papillion', containedInPlace: { '@type': 'State', name: 'Nebraska' } }
+          ],
+          hasCredential: [
+            { '@type': 'EducationalOccupationalCredential', name: 'Nebraska Real Estate License', identifier: 'NE-45821' },
+            { '@type': 'EducationalOccupationalCredential', name: 'Iowa Real Estate License', identifier: 'IA-78234' }
+          ],
+          sameAs: [
+            'https://krierrealty.com'
+          ]
+        },
+        {
+          '@type': 'LocalBusiness',
+          '@id': 'https://krierrealty.com/#business',
+          name: 'Krier Realty — Aaron Krier REALTOR®',
+          url: 'https://krierrealty.com',
+          telephone: '+14025550187',
+          email: 'aaron@krierrealty.com',
+          image: 'https://krierrealty.com/aaron.png',
+          priceRange: '$$',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Carter Lake',
+            addressRegion: 'IA',
+            postalCode: '51510',
+            addressCountry: 'US'
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 41.2619,
+            longitude: -95.8608
+          },
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+              opens: '08:00',
+              closes: '18:00'
+            },
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Saturday'],
+              opens: '09:00',
+              closes: '16:00'
+            }
+          ]
+        }
+      ]
     });
 
     this.propertyService.getFeaturedListings().subscribe(listings => {

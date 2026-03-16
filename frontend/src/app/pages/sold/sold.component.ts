@@ -39,7 +39,8 @@ export class SoldComponent implements OnInit {
   ngOnInit(): void {
     this.seoService.updateMeta({
       title: 'Recently Sold Homes in Omaha & Council Bluffs | Aaron Krier REALTOR®',
-      description: "Browse Aaron Krier's recently sold properties across the Greater Omaha-Council Bluffs metro. Proven track record on both sides of the Missouri River."
+      description: "Browse Aaron Krier's recently sold properties across the Greater Omaha-Council Bluffs metro. Proven track record on both sides of the Missouri River.",
+      canonical: '/sold'
     });
 
     this.propertyService.getSoldListings().subscribe(listings => {

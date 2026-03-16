@@ -68,8 +68,56 @@ export class SellComponent implements OnInit {
   ngOnInit(): void {
     this.seoService.updateMeta({
       title: 'Sell Your Home in Omaha or Council Bluffs | Free Valuation | Aaron Krier REALTOR®',
-      description: 'Sell your home on either side of the river. Get a free home valuation from Aaron Krier, dual-licensed REALTOR® serving Greater Omaha and Council Bluffs.'
+      description: 'Sell your home on either side of the river. Get a free home valuation from Aaron Krier, dual-licensed REALTOR® serving Greater Omaha and Council Bluffs.',
+      canonical: '/sell'
     });
+
+    this.seoService.addJsonLd({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is a Comparative Market Analysis (CMA)?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: "A CMA is a detailed report Aaron prepares that analyzes recent home sales in your neighborhood to determine your home's current market value. It's completely free and includes comparable sales data, neighborhood trends, and a recommended listing price range."
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'How long does it take to sell a home in the Omaha metro?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'In the Greater Omaha and Council Bluffs market, well-priced homes typically sell within 14–45 days. Factors like condition, location, and pricing strategy significantly impact time on market. Aaron will provide a realistic timeline during your free valuation.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'Do I need to make repairs before listing my home?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: "Not necessarily. Aaron will walk through your home and advise which repairs or updates are likely to improve your sale price versus which aren't worth the cost. Many homes sell successfully as-is, especially in a competitive market."
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'What is the difference between selling in Nebraska versus Iowa?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Nebraska and Iowa have different disclosure requirements, transfer taxes, and closing customs. Aaron is dual-licensed in both states and handles transactions on both sides of the Missouri River, ensuring you\'re fully informed regardless of which state your property is in.'
+          }
+        },
+        {
+          '@type': 'Question',
+          name: 'How does Aaron determine the right listing price?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Aaron uses a combination of recent comparable sales (comps), current market conditions, your home\'s unique features, and neighborhood demand to recommend a strategic listing price — one designed to attract serious buyers while maximizing your net proceeds.'
+          }
+        }
+      ]
+    }, 'json-ld-faq');
 
     this.valuationForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],

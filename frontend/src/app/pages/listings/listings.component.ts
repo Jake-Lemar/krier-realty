@@ -83,7 +83,8 @@ export class ListingsComponent implements OnInit {
   ngOnInit(): void {
     this.seoService.updateMeta({
       title: 'Homes for Sale in Nebraska & Iowa | Aaron Krier REALTOR®',
-      description: 'Browse homes for sale in Omaha NE and Council Bluffs IA. Filter by price, beds, and type. Aaron Krier is your dual-licensed NE & IA REALTOR® based in Carter Lake.'
+      description: 'Browse homes for sale in Omaha NE and Council Bluffs IA. Filter by price, beds, and type. Aaron Krier is your dual-licensed NE & IA REALTOR® based in Carter Lake.',
+      canonical: '/listings'
     });
 
     this.route.queryParams.subscribe(params => {
