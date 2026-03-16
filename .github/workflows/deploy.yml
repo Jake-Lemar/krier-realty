@@ -26,7 +26,11 @@ jobs:
         run: npm run db:migrate
         working-directory: api
         env:
-          DATABASE_DIRECT_URL: ${{ secrets.DATABASE_MIGRATE_URL }}
+          PGHOST:     ${{ secrets.PGHOST }}
+          PGPORT:     5432
+          PGUSER:     ${{ secrets.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: postgres
 
       - name: Deploy API to Vercel
         run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
