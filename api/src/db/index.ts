@@ -15,7 +15,10 @@ function getDb(): ReturnType<typeof drizzle> {
 
   const connectionString = process.env['DATABASE_URL']!;
 
-  const ca = process.env['SUPABASE_CA_CERT'];
+  const caRaw = process.env['SUPABASE_CA_CERT'];
+  const ca = caRaw
+    ? Buffer.from(caRaw, 'base64').toString('utf8')
+    : undefined;
   const ssl = ca
     ? { ca }
     : process.env['NODE_ENV'] === 'production'

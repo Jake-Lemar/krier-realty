@@ -34,6 +34,13 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Terraform
+infrastructure/terraform.tfvars
+infrastructure/.terraform/
+infrastructure/terraform.tfstate
+infrastructure/terraform.tfstate.backup
+infrastructure/.terraform.lock.hcl
+
 # Misc
 .DS_Store
 Thumbs.db

@@ -1,0 +1,41 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored — never commit real secrets.
+
+# ─── Vercel ───────────────────────────────────────────────────────────────────
+# Account Settings → Tokens → Create Token
+vercel_api_token = "your-vercel-token"
+# Account Settings → General → Team ID (team_xxx)
+vercel_team_id   = "team_MwufWGnBsUTUslFRpi0FKP9S"
+
+# ─── Supabase ─────────────────────────────────────────────────────────────────
+# supabase.com → Account → Access Tokens
+supabase_access_token    = "sbp_..."
+# supabase.com → Org Settings → General → Organization ID
+supabase_organization_id = "your-org-id"
+# Strong password for the Postgres database
+supabase_db_password     = "a-very-strong-password"
+supabase_region          = "us-east-1"
+
+# ─── Upstash ──────────────────────────────────────────────────────────────────
+# console.upstash.com → Account → Management API
+upstash_email   = "you@example.com"
+upstash_api_key = "your-upstash-api-key"
+upstash_region  = "us-east-1"
+
+# ─── App secrets ──────────────────────────────────────────────────────────────
+# openssl rand -hex 32
+api_key           = "generate-with-openssl-rand-hex-32"
+admin_emails      = "aaron@krierrealty.com"
+gemini_api_key    = "AIza..."
+resend_api_key    = "re_..."
+lead_notify_email = "aaron@krierrealty.com"
+allowed_origins   = "https://krierrealty.com"
+
+# Base64-encoded Supabase CA certificate PEM
+# Get from: curl https://your-project.supabase.co/auth/v1/.well-known/jwks.json
+# Or download from Supabase dashboard → Project Settings → Database → SSL Certificate
+supabase_ca_cert = "base64-encoded-pem"
+
+# ─── GPRMLS (leave blank until credentials are issued) ────────────────────────
+gprmls_client_id     = ""
+gprmls_client_secret = ""
