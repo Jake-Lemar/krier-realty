@@ -15,9 +15,16 @@ function getDb(): ReturnType<typeof drizzle> {
 
   const connectionString = process.env['DATABASE_URL']!;
 
+  const ca = process.env['SUPABASE_CA_CERT'];
+  const ssl = ca
+    ? { ca }
+    : process.env['NODE_ENV'] === 'production'
+      ? true
+      : { rejectUnauthorized: false };
+
   const pool = new Pool({
     connectionString,
-    ssl: process.env['NODE_ENV'] === 'production' ? true : { rejectUnauthorized: false },
+    ssl,
     max: 3, // keep pool small for serverless
   });
 

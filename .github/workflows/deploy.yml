@@ -22,15 +22,19 @@ jobs:
         run: npm ci
         working-directory: api
 
+      - name: Write Supabase CA certificate
+        run: echo "${{ secrets.SUPABASE_CA_CERT }}" | base64 -d > /tmp/supabase-ca.crt
+
       - name: Run database migrations
         run: npm run db:migrate
         working-directory: api
         env:
-          PGHOST:     ${{ secrets.PGHOST }}
-          PGPORT:     5432
-          PGUSER:     ${{ secrets.PGUSER }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD }}
-          PGDATABASE: postgres
+          PGHOST:        ${{ secrets.PGHOST }}
+          PGPORT:        5432
+          PGUSER:        ${{ secrets.PGUSER }}
+          PGPASSWORD:    ${{ secrets.PGPASSWORD }}
+          PGDATABASE:    postgres
+          PGSSLROOTCERT: /tmp/supabase-ca.crt
 
       - name: Deploy API to Vercel
         run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes

@@ -1,4 +1,5 @@
 import { defineConfig } from 'drizzle-kit';
+import fs from 'fs';
 
 // In CI individual PG* vars are used to avoid URL-encoding issues with special
 // characters in passwords. Locally / production falls back to the connection URL.
@@ -9,7 +10,11 @@ const dbCredentials = process.env['PGHOST']
       user:     process.env['PGUSER']!,
       password: process.env['PGPASSWORD']!,
       database: process.env['PGDATABASE'] ?? 'postgres',
-      ssl:      true,
+      ssl: process.env['PGSSLROOTCERT']
+        ? { ca: fs.readFileSync(process.env['PGSSLROOTCERT'], 'utf8') }
+        : process.env['SUPABASE_CA_CERT']
+          ? { ca: process.env['SUPABASE_CA_CERT'] }
+          : true,
     }
   : { url: process.env['DATABASE_DIRECT_URL'] ?? process.env['DATABASE_URL'] ?? '' };
 
